@@ -1,0 +1,83 @@
+// Online C
+#include <stdio.h>
+#include <malloc.h>
+#include <math.h>
+
+
+struct Vector 
+{
+    float x;
+    float y;
+};
+struct tochka
+{
+    int mass;
+    int pos;
+    struct Vector coord;
+};
+
+struct tochka closerPointToAnotherPoint(struct tochka tochka1, struct tochka *tochka, int n)
+{
+    struct tochka closerTochka;
+    int i;
+    float dist = 100000;
+
+    for (i = 1; i < n; i++)
+    {
+        float curDist = sqrt(pow(tochka1.coord.x - tochki[i].coord.x, 2) + pow(tochka1.coord.y - tochki[i].coord.y, 2));
+
+        if (curDist < dist)
+        {
+            dist = curDist;
+            closerTochka = tochki[i];
+        }
+    }
+
+    return closerTochka;
+}
+
+int main()
+{
+    int i, n, j;
+
+    printf("Vvedite nomer tochki: ");
+    scanf("%d", &n);
+
+    struct tochka tochki[100000];
+
+    for (i = 0; i < n; i++)
+    {
+        float x, y;
+        int mass;
+
+        printf("\nVvedite coordinaty x of %d", i + 1);
+        scanf("%f", &x);
+        tochki[i].coord.x = x;
+        printf("Vvedite coordinaty y of %d ", i + 1);
+        scanf("%f", &y);
+        tochki[i].coord.y = y;
+        printf("Vvedite massy tochki %d  ", i + 1);
+        scanf("%d", &mass);
+        tochki[i].mass = mass;
+       
+        tochki[i].pos = i;
+    }
+
+    int num = n - 1;
+
+    for (i = 0; i < num; i++)
+    {
+        struct tochka tochkaToDelete = closerTochkaToAnotherTochka(tochki[0], tochki, n);
+        tochki[0].mass += tochkaToDelete.mass;
+
+        for (j = tochkaToDelete.pos; j < n - 1; j++)
+        {
+            tochki[j] = tochki[j + 1];
+            tochki[j].pos = j;
+        }
+
+        n--;
+    }
+
+    printf("\nMass of your point: %d", tochki[0].mass);
+} 

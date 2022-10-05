@@ -1,0 +1,107 @@
+// Online C
+#include <stdio.h>
+#include <stdlib.h>
+#include <malloc.h>
+
+int *AL;
+int i;
+int arrSize()
+{
+    return sizeof(AL) / sizeof(int);}
+
+int *add(int item)
+{
+    AL = realloc(AL, arrSize() + 1 * sizeof(int));
+    AL[arrSize()] = item;
+    return AL;}
+int *insert(int index, int item)
+{
+    AL = realloc(AL, arrSize() + 1 * sizeof(int));
+    
+    for (i = index + 1; i < arrSize() - 1; i++)
+    {
+        AL[i] = AL[i + 1]; }
+    AL[index] = item;
+    return AL;
+}
+
+int *removeComp(int index)
+{
+   
+    for (i = index; i < arrSize() - 1; i++)
+    {
+        AL[i] = AL[i + 1];
+    }
+
+    AL = realloc(AL, arrSize() - 1 * sizeof(int));
+
+    return AL;
+}
+
+int *set(int index, int item)
+{
+    AL[index] = item;
+
+    return AL;
+}
+
+int get(int index)
+{
+    return AL[index];
+}
+
+int main()
+{
+    AL = calloc(1, sizeof(int));
+    int ch, inx;
+
+    while (1)
+    {
+        printf("Choose:\n1.Add;\n2.Insert;\n3.Size;\n4.Remove;\n5.Set;\n6.Get;\n7.Print;\n8.Quit.\n");
+        scanf("%d", &ch);
+
+        switch (ch)
+        {
+        case 1:
+            printf("\nChoose value to add: ");
+            scanf("%d", &ch);
+            AL = add(ch);
+            break;
+        case 2:
+            printf("\nChoose index: ");
+            scanf("%d", &inx);
+            printf("\nChoose value to add: ");
+            scanf("%d", &ch);
+            AL = insert(inx, ch);
+            break;
+        case 3:
+            printf("\nSize of arrayList: %d\n", arrSize());
+            break;
+        case 4:
+            printf("\nChoose index: ");
+            scanf("%d", &ch);
+            AL = removeComp(ch);
+            break;
+        case 5:
+            printf("\nChoose index: ");
+            scanf("%d", &inx);
+            printf("\nChoose value to set: ");
+            scanf("%d", &ch);
+            AL = set(inx, ch);
+            break;
+        case 6:
+            printf("\nChoose index: ");
+            scanf("%d", &ch);
+            printf("\nYour value: ", get(ch));
+            break;
+        case 7:
+            break;
+        case 8:
+            exit(-1);
+        default:
+            break;
+        }
+    }
+
+    free(AL);
+}
